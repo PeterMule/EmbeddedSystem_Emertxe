@@ -1,20 +1,50 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"32 ./clcd.h
-[; ;./clcd.h: 32: void init_clcd(void);
+"33 ./clcd.h
+[; ;./clcd.h: 33: void init_clcd(void);
 [v _init_clcd `(v ~T0 @X0 0 ef ]
+"32 ./digital_keypad.h
+[; ;./digital_keypad.h: 32: void init_digital_keypad(void);
+[v _init_digital_keypad `(v ~T0 @X0 0 ef ]
 "8 ./adc.h
 [; ;./adc.h: 8: void init_adc(void);
 [v _init_adc `(v ~T0 @X0 0 ef ]
 "10 ./i2c.h
 [; ;./i2c.h: 10: void init_i2c(unsigned long baud);
 [v _init_i2c `(v ~T0 @X0 0 ef1`ul ]
+"16 ./ds1307.h
+[; ;./ds1307.h: 16: void init_ds1307(void);
+[v _init_ds1307 `(v ~T0 @X0 0 ef ]
 [p mainexit ]
-"9 ./adc.h
-[; ;./adc.h: 9: unsigned short read_adc(void);
-[v _read_adc `(us ~T0 @X0 0 ef ]
-"13 ./car_black_box_de.h
-[; ;./car_black_box_de.h: 13: void display_dashboard(char*,unsigned char);
+"114 E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\eeprom_routines.h
+[; ;E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\eeprom_routines.h: 114: extern void eeprom_write(unsigned char addr, unsigned char value);
+[v _eeprom_write `(v ~T0 @X0 0 ef2`uc`uc ]
+"12 ./car_black_box_de.h
+[; ;./car_black_box_de.h: 12: unsigned char get_speed(void);
+[v _get_speed `(uc ~T0 @X0 0 ef ]
+"37 C:\Program Files\Microchip\xc8\v2.36\pic\include\c90\string.h
+[; ;C:\Program Files\Microchip\xc8\v2.36\pic\include\c90\string.h: 37: extern char * strcpy(char *, const char *);
+[v _strcpy `(*uc ~T0 @X0 0 ef2`*uc`*Cuc ]
+"17 ./car_black_box_de.h
+[; ;./car_black_box_de.h: 17: void log_car_event(char event[], unsigned char speed);
+[v _log_car_event `(v ~T0 @X0 0 ef2`*uc`uc ]
+"31 ./digital_keypad.h
+[; ;./digital_keypad.h: 31: unsigned char read_digital_keypad(unsigned char mode);
+[v _read_digital_keypad `(uc ~T0 @X0 0 ef1`uc ]
+"14 ./car_black_box_de.h
+[; ;./car_black_box_de.h: 14: void display_dashboard(char*,unsigned char);
 [v _display_dashboard `(v ~T0 @X0 0 ef2`*uc`uc ]
+"18
+[; ;./car_black_box_de.h: 18: void clcd_clear_screen(void);
+[v _clcd_clear_screen `(v ~T0 @X0 0 ef ]
+"35 ./clcd.h
+[; ;./clcd.h: 35: void clcd_print(const char *str, unsigned char addr);
+[v _clcd_print `(v ~T0 @X0 0 ef2`*Cuc`uc ]
+"16 ./car_black_box_de.h
+[; ;./car_black_box_de.h: 16: unsigned char* read_log_car_event(char index);
+[v _read_log_car_event `(*uc ~T0 @X0 0 ef1`uc ]
+"15
+[; ;./car_black_box_de.h: 15: char display_log_car_event(char);
+[v _display_log_car_event `(uc ~T0 @X0 0 ef1`uc ]
 "55 E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
 [; ;E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 55: __asm("INDF equ 00h");
 [; <" INDF equ 00h ;# ">
@@ -195,97 +225,410 @@ Version 4.0 HI-TECH Software Intermediate Code
 "2364
 [; ;E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h: 2364: __asm("EECON2 equ 018Dh");
 [; <" EECON2 equ 018Dh ;# ">
-"10 main.c
-[; ;main.c: 10: 
+"11 main.c
+[; ;main.c: 11:     init_adc();
 [p x WDTE  =  OFF         ]
-"12
-[; ;main.c: 12: 
+"14
+[; ;main.c: 14: 
+[v _gear `*uc ~T0 @X0 -> 8 `i e ]
+[i _gear
+:U ..
+:s 1C
+:s 2C
+:s 3C
+:s 4C
+:s 5C
+:s 6C
+:s 7C
+:s 8C
+..
+]
+"17
+[; ;main.c: 17: }
 [v _init_config `(v ~T0 @X0 1 sf ]
-"13
-[; ;main.c: 13: }
+"18
+[; ;main.c: 18: 
 {
 [e :U _init_config ]
 [f ]
-"15
-[; ;main.c: 15: void main(void) {
+"20
+[; ;main.c: 20: 
 [e ( _init_clcd ..  ]
-"19
-[; ;main.c: 19:     unsigned char control_flag = 1;
+"22
+[; ;main.c: 22: 
+[e ( _init_digital_keypad ..  ]
+"24
+[; ;main.c: 24:     unsigned char speed = get_speed();
 [e ( _init_adc ..  ]
-"23
-[; ;main.c: 23:     while(1)
+"26
+[; ;main.c: 26:     unsigned char gr = 0;
 [e ( _init_i2c (1 -> -> 100000 `l `ul ]
-"25
-[; ;main.c: 25:         switch(control_flag)
+"28
+[; ;main.c: 28:     strcpy(event,gear[gr]);
+[e ( _init_ds1307 ..  ]
+"30
+[; ;main.c: 30:     unsigned char control_flag = 1;
 [e :UE 95 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"27
-[; ;main.c: 27:             case 1:
+"32
+[; ;main.c: 32: 
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-[v F911 `uc ~T0 @X0 -> 3 `i s ]
-[i F911
-:U ..
-"28
-[; ;main.c: 28:                 speed = ((float)read_adc()/1023 * 99);
--> 79 `c
--> 78 `c
--> 0 `c
-..
-]
-[v _event `uc ~T0 @X0 -> 3 `i a ]
-[e = _event F911 ]
-"29
-[; ;main.c: 29:                 display_dashboard(event,speed);
+"34
+[; ;main.c: 34: 
+[e ( _init_config ..  ]
+"36
+[; ;main.c: 36:     while(1)
+[e ( _eeprom_write (2 , -> -> 1 `i `uc -> -> 65 `ui `uc ]
+"37
+[; ;main.c: 37:     {
 [v _speed `uc ~T0 @X0 1 a ]
-[e = _speed -> -> 0 `i `uc ]
-"31
-[; ;main.c: 31:             default:
+[e = _speed ( _get_speed ..  ]
+"38
+[; ;main.c: 38:         key = read_digital_keypad(1);
+[v _key `uc ~T0 @X0 1 a ]
+"39
+[; ;main.c: 39: 
+[v _gr `uc ~T0 @X0 1 a ]
+[e = _gr -> -> 0 `i `uc ]
+"40
+[; ;main.c: 40: 
+[v _event `uc ~T0 @X0 -> 3 `i a ]
+"41
+[; ;main.c: 41:         for(int i = 0; i<30;i++);
+[e ( _strcpy (2 , &U _event -> *U + &U _gear * -> _gr `ux -> -> # *U &U _gear `ui `ux `*Cuc ]
+"42
+[e ( _log_car_event (2 , &U _event _speed ]
+"43
 [v _control_flag `uc ~T0 @X0 1 a ]
 [e = _control_flag -> -> 1 `i `uc ]
-"33
-[; ;main.c: 33:                 break;
-[e ( _init_config ..  ]
-"35
-[; ;main.c: 35:     }
+"44
+[v _logs_index `uc ~T0 @X0 1 a ]
+[e = _logs_index -> -> 0 `i `uc ]
+"49
 [e :U 98 ]
-"36
-[; ;main.c: 36:     return;
+"50
 {
-"37
-[; ;main.c: 37: }
+"51
+[e = _key ( _read_digital_keypad (1 -> -> 1 `i `uc ]
+"54
+{
+[v _i `i ~T0 @X0 1 a ]
+[e = _i -> 0 `i ]
+[e $ < _i -> 30 `i 100  ]
 [e $U 101  ]
-"38
-{
-"39
-[e :U 102 ]
-"40
-[e = _speed -> * / -> ( _read_adc ..  `f -> -> 1023 `i `f -> -> 99 `i `f `uc ]
-"41
-[e ( _display_dashboard (2 , &U _event _speed ]
-"42
-[e $U 100  ]
-"43
-[e :U 103 ]
-"45
-[e $U 100  ]
-"46
-}
-[e $U 100  ]
-[e :U 101 ]
-[e [\ -> _control_flag `i , $ -> 1 `i 102
- 103 ]
 [e :U 100 ]
-"47
+[e ++ _i -> 1 `i ]
+[e $ < _i -> 30 `i 100  ]
+[e :U 101 ]
+}
+"85
+[; ;main.c: 85:         switch(control_flag)
+[e $U 104  ]
+"86
+[; ;main.c: 86:         {
+{
+"87
+[; ;main.c: 87:             case 1:
+[e :U 105 ]
+"88
+[; ;main.c: 88:                 switch(key)
+[e $U 107  ]
+"89
+[; ;main.c: 89:                 {
+{
+"90
+[; ;main.c: 90:                     case 0x3E:
+[e :U 108 ]
+"91
+[; ;main.c: 91:                     {
+{
+"93
+[; ;main.c: 93:                         gr = 1;
+[e = _gr -> -> 1 `i `uc ]
+"94
+[; ;main.c: 94:                         strcpy(event,gear[gr]);
+[e ( _strcpy (2 , &U _event -> *U + &U _gear * -> _gr `ux -> -> # *U &U _gear `ui `ux `*Cuc ]
+"95
+[; ;main.c: 95:                         speed = get_speed();
+[e = _speed ( _get_speed ..  ]
+"96
+[; ;main.c: 96:                         log_car_event(event,speed);
+[e ( _log_car_event (2 , &U _event _speed ]
+"98
+[; ;main.c: 98:                         display_dashboard(event,speed);
+[e ( _display_dashboard (2 , &U _event _speed ]
+"99
+[; ;main.c: 99:                         break;
+[e $U 106  ]
+"100
+[; ;main.c: 100:                     }
+}
+"101
+[; ;main.c: 101:                     case 0x3D:
+[e :U 109 ]
+"102
+[; ;main.c: 102:                     {
+{
+"103
+[; ;main.c: 103:                         if (gr < 8)
+[e $ ! < -> _gr `i -> 8 `i 110  ]
+"104
+[; ;main.c: 104:                         {
+{
+"105
+[; ;main.c: 105:                             strcpy(event,gear[gr<2?gr=2:gr++]);
+[e ( _strcpy (2 , &U _event -> *U + &U _gear * -> -> ? < -> _gr `i -> 2 `i : -> = _gr -> -> 2 `i `uc `i -> ++ _gr -> -> 1 `i `uc `i `ui `ux -> -> # *U &U _gear `ui `ux `*Cuc ]
+"106
+[; ;main.c: 106:                             speed = get_speed();
+[e = _speed ( _get_speed ..  ]
+"107
+[; ;main.c: 107:                             log_car_event(event,speed);
+[e ( _log_car_event (2 , &U _event _speed ]
+"109
+[; ;main.c: 109:                             display_dashboard(event,speed);
+[e ( _display_dashboard (2 , &U _event _speed ]
+"110
+[; ;main.c: 110:                         }
+}
+[e :U 110 ]
+"111
+[; ;main.c: 111:                         break;
+[e $U 106  ]
+"112
+[; ;main.c: 112:                     }
+}
+"113
+[; ;main.c: 113:                     case 0x3B:
+[e :U 111 ]
+"114
+[; ;main.c: 114:                     {
+{
+"115
+[; ;main.c: 115:                         if (gr > 2)
+[e $ ! > -> _gr `i -> 2 `i 112  ]
+"116
+[; ;main.c: 116:                         {
+{
+"117
+[; ;main.c: 117:                             strcpy(event,gear[--gr]);
+[e ( _strcpy (2 , &U _event -> *U + &U _gear * -> =- _gr -> -> 1 `i `uc `ux -> -> # *U &U _gear `ui `ux `*Cuc ]
+"118
+[; ;main.c: 118:                             speed = get_speed();
+[e = _speed ( _get_speed ..  ]
+"119
+[; ;main.c: 119:                             log_car_event(event,speed);
+[e ( _log_car_event (2 , &U _event _speed ]
+"121
+[; ;main.c: 121:                             display_dashboard(event,speed);
+[e ( _display_dashboard (2 , &U _event _speed ]
+"122
+[; ;main.c: 122:                         }
+}
+[e :U 112 ]
+"123
+[; ;main.c: 123:                         break;
+[e $U 106  ]
+"124
+[; ;main.c: 124:                     }
+}
+"125
+[; ;main.c: 125:                     case 0x37:
+[e :U 113 ]
+"126
+[; ;main.c: 126:                     case 0x2F:
+[e :U 114 ]
+"127
+[; ;main.c: 127:                     {
+{
+"128
+[; ;main.c: 128:                         clcd_clear_screen();
+[e ( _clcd_clear_screen ..  ]
+"129
+[; ;main.c: 129:                         clcd_print(" ENTER PASSWORD", (0x80 + 0));
+[e ( _clcd_print (2 , :s 9C -> + -> 128 `i -> 0 `i `uc ]
+"130
+[; ;main.c: 130:                         clcd_print(" ", (0xC0 + 6));
+[e ( _clcd_print (2 , :s 10C -> + -> 192 `i -> 6 `i `uc ]
+"133
+[; ;main.c: 133:                         control_flag = 2;
+[e = _control_flag -> -> 2 `i `uc ]
+"134
+[; ;main.c: 134:                         break;
+[e $U 106  ]
+"135
+[; ;main.c: 135:                     }
+}
+"136
+[; ;main.c: 136:                     default:
+[e :U 115 ]
+"137
+[; ;main.c: 137:                     {
+{
+"138
+[; ;main.c: 138:                         speed = get_speed();
+[e = _speed ( _get_speed ..  ]
+"139
+[; ;main.c: 139:                         display_dashboard(event,speed);
+[e ( _display_dashboard (2 , &U _event _speed ]
+"140
+[; ;main.c: 140:                     }
+}
+"141
+[; ;main.c: 141:                 }
+}
+[e $U 106  ]
+[e :U 107 ]
+[e [\ -> _key `i , $ -> 62 `i 108
+ , $ -> 61 `i 109
+ , $ -> 59 `i 111
+ , $ -> 55 `i 113
+ , $ -> 47 `i 114
+ 115 ]
+[e :U 106 ]
+"142
+[; ;main.c: 142:                 break;
+[e $U 103  ]
+"143
+[; ;main.c: 143:             case 2:
+[e :U 116 ]
+"144
+[; ;main.c: 144:             {
+{
+"145
+[; ;main.c: 145:                 unsigned char * h = read_log_car_event(0);
+[v _h `*uc ~T0 @X0 1 a ]
+[e = _h ( _read_log_car_event (1 -> -> 0 `i `uc ]
+"147
+[; ;main.c: 147:                 clcd_print(h, (0xC0 + 0));
+[e ( _clcd_print (2 , -> _h `*Cuc -> + -> 192 `i -> 0 `i `uc ]
+"148
+[; ;main.c: 148:                 if(key == 0x1F)
+[e $ ! == -> _key `i -> 31 `i 117  ]
+"149
+[; ;main.c: 149:                 {
+{
+"150
+[; ;main.c: 150:                     control_flag = 3;
+[e = _control_flag -> -> 3 `i `uc ]
+"151
+[; ;main.c: 151:                 }
+}
+[e :U 117 ]
+"153
+[; ;main.c: 153:                 break;
+[e $U 103  ]
+"154
+[; ;main.c: 154:             }
+}
+"155
+[; ;main.c: 155:             case 3:
+[e :U 118 ]
+"156
+[; ;main.c: 156:             {
+{
+"158
+[; ;main.c: 158:                 if(key == 0x37)
+[e $ ! == -> _key `i -> 55 `i 119  ]
+"159
+[; ;main.c: 159:                 {
+{
+"160
+[; ;main.c: 160:                     logs_index = display_log_car_event(logs_index+1)==-1?logs_index:logs_index+1;
+[e = _logs_index -> ? == -> ( _display_log_car_event (1 -> + -> _logs_index `i -> 1 `i `uc `i -U -> 1 `i : -> _logs_index `i + -> _logs_index `i -> 1 `i `uc ]
+"161
+[; ;main.c: 161:                 }
+}
+[e $U 120  ]
+"162
+[; ;main.c: 162:                 else if(key == 0x2F)
+[e :U 119 ]
+[e $ ! == -> _key `i -> 47 `i 121  ]
+"163
+[; ;main.c: 163:                 {
+{
+"164
+[; ;main.c: 164:                     logs_index = display_log_car_event(logs_index-1)==-1?logs_index:logs_index-1;
+[e = _logs_index -> ? == -> ( _display_log_car_event (1 -> - -> _logs_index `i -> 1 `i `uc `i -U -> 1 `i : -> _logs_index `i - -> _logs_index `i -> 1 `i `uc ]
+"165
+[; ;main.c: 165:                 }
+}
+[e $U 122  ]
+"166
+[; ;main.c: 166:                 else if(key == 0x1F)
+[e :U 121 ]
+[e $ ! == -> _key `i -> 31 `i 123  ]
+"167
+[; ;main.c: 167:                 {
+{
+"168
+[; ;main.c: 168:                     control_flag = 1;
+[e = _control_flag -> -> 1 `i `uc ]
+"169
+[; ;main.c: 169:                     logs_index = 0;
+[e = _logs_index -> -> 0 `i `uc ]
+"170
+[; ;main.c: 170:                 }
+}
+[e $U 124  ]
+"171
+[; ;main.c: 171:                 else{
+[e :U 123 ]
+{
+"172
+[; ;main.c: 172:                     display_log_car_event(logs_index);
+[e ( _display_log_car_event (1 _logs_index ]
+"173
+[; ;main.c: 173:                 }
+}
+[e :U 124 ]
+[e :U 122 ]
+[e :U 120 ]
+"174
+[; ;main.c: 174:                 break;
+[e $U 103  ]
+"175
+[; ;main.c: 175:             }
+}
+"176
+[; ;main.c: 176:             default:
+[e :U 125 ]
+"178
+[; ;main.c: 178:                 break;
+[e $U 103  ]
+"179
+[; ;main.c: 179:         }
+}
+[e $U 103  ]
+[e :U 104 ]
+[e [\ -> _control_flag `i , $ -> 1 `i 105
+ , $ -> 2 `i 116
+ , $ -> 3 `i 118
+ 125 ]
+[e :U 103 ]
+"180
+[; ;main.c: 180:     }
 }
 [e :U 97 ]
 [e $U 98  ]
 [e :U 99 ]
-"48
+"181
+[; ;main.c: 181:     return;
 [e $UE 96  ]
-"49
+"182
+[; ;main.c: 182: }
 [e :UE 96 ]
 }
+[a 4C 71 82 0 ]
+[a 1C 79 78 0 ]
+[a 3C 71 78 0 ]
+[a 9C 32 69 78 84 69 82 32 80 65 83 83 87 79 82 68 0 ]
+[a 8C 71 52 0 ]
+[a 7C 71 51 0 ]
+[a 6C 71 50 0 ]
+[a 5C 71 49 0 ]
+[a 2C 67 32 0 ]
+[a 10C 32 0 ]

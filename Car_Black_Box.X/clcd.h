@@ -28,10 +28,12 @@
 #define TWO_LINES_5x8_8_BIT_MODE    0x38
 #define CLEAR_DISP_SCREEN           0x01
 #define DISP_ON_AND_CURSOR_OFF      0x0C
+#define DISP_ON_AND_CURSOR_ON       0x0F
 
 void init_clcd(void);
 void clcd_putch(const char data, unsigned char addr);
 void clcd_print(const char *str, unsigned char addr);
+void clcd_write(unsigned char byte, unsigned char mode);
 
 #endif	/* CLCD_H */
 

@@ -1864,6 +1864,60 @@ extern __bank0 __bit __timeout;
 # 29 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
 # 11 "./main.h" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 1 3
+
+
+
+
+
+# 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__size_t.h" 1 3
+
+
+
+typedef unsigned size_t;
+# 6 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 2 3
+
+# 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__null.h" 1 3
+# 7 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 2 3
+
+
+
+
+
+
+
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+# 36 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 3
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+# 12 "./main.h" 2
+
+
 # 1 "./adc.h" 1
 
 
@@ -1874,27 +1928,28 @@ extern __bank0 __bit __timeout;
 
 void init_adc(void);
 unsigned short read_adc(void);
-# 12 "./main.h" 2
+# 14 "./main.h" 2
 
 # 1 "./clcd.h" 1
-# 32 "./clcd.h"
+# 33 "./clcd.h"
 void init_clcd(void);
 void clcd_putch(const char data, unsigned char addr);
 void clcd_print(const char *str, unsigned char addr);
-# 13 "./main.h" 2
+void clcd_write(unsigned char byte, unsigned char mode);
+# 15 "./main.h" 2
 
 # 1 "./digital_keypad.h" 1
 # 31 "./digital_keypad.h"
 unsigned char read_digital_keypad(unsigned char mode);
 void init_digital_keypad(void);
-# 14 "./main.h" 2
+# 16 "./main.h" 2
 
 # 1 "./ds1307.h" 1
 # 16 "./ds1307.h"
 void init_ds1307(void);
 unsigned char read_ds1307(unsigned char addr);
 void write_ds1307(unsigned char addr, unsigned char data);
-# 15 "./main.h" 2
+# 17 "./main.h" 2
 
 # 1 "./i2c.h" 1
 # 10 "./i2c.h"
@@ -1904,7 +1959,7 @@ void i2c_rep_start(void);
 void i2c_stop(void);
 unsigned char i2c_read(unsigned char ack);
 int i2c_write(unsigned char data);
-# 16 "./main.h" 2
+# 18 "./main.h" 2
 
 # 1 "./car_black_box_de.h" 1
 # 10 "./car_black_box_de.h"
@@ -1912,45 +1967,154 @@ int i2c_write(unsigned char data);
 # 10 "./car_black_box_de.h" 2
 
 
+unsigned char get_speed(void);
 void display_time();
 void display_dashboard(char*,unsigned char);
-# 17 "./main.h" 2
+char display_log_car_event(char);
+unsigned char* read_log_car_event(char index);
+void log_car_event(char event[], unsigned char speed);
+void clcd_clear_screen(void);
+# 19 "./main.h" 2
 # 8 "main.c" 2
 
 
+
 #pragma config WDTE = OFF
+
+
+unsigned char* gear[] = {"ON","C ", "GN","GR","G1","G2","G3","G4"};
+
 
 static void init_config(void)
 {
 
     init_clcd();
 
-
+    init_digital_keypad();
 
     init_adc();
 
-
-
     init_i2c(100000);
+
+    init_ds1307();
 
 }
 
 void main(void) {
-    char event[3] = "ON";
-    unsigned char speed = 0;
-
-    unsigned char control_flag = 1;
 
     init_config();
 
+    eeprom_write(1,'A');
+    unsigned char speed = get_speed();
+    unsigned char key;
+    unsigned char gr = 0;
+    char event[3];
+    strcpy(event,gear[gr]);
+    log_car_event(event,speed);
+    unsigned char control_flag = 1;
+    char logs_index = 0;
+
+
+
+
     while(1)
     {
+        key = read_digital_keypad(1);
+
+
+        for(int i = 0; i<30;i++);
+# 85 "main.c"
         switch(control_flag)
         {
             case 1:
-                speed = ((float)read_adc()/1023 * 99);
-                display_dashboard(event,speed);
+                switch(key)
+                {
+                    case 0x3E:
+                    {
+
+                        gr = 1;
+                        strcpy(event,gear[gr]);
+                        speed = get_speed();
+                        log_car_event(event,speed);
+
+                        display_dashboard(event,speed);
+                        break;
+                    }
+                    case 0x3D:
+                    {
+                        if (gr < 8)
+                        {
+                            strcpy(event,gear[gr<2?gr=2:gr++]);
+                            speed = get_speed();
+                            log_car_event(event,speed);
+
+                            display_dashboard(event,speed);
+                        }
+                        break;
+                    }
+                    case 0x3B:
+                    {
+                        if (gr > 2)
+                        {
+                            strcpy(event,gear[--gr]);
+                            speed = get_speed();
+                            log_car_event(event,speed);
+
+                            display_dashboard(event,speed);
+                        }
+                        break;
+                    }
+                    case 0x37:
+                    case 0x2F:
+                    {
+                        clcd_clear_screen();
+                        clcd_print(" ENTER PASSWORD", (0x80 + 0));
+                        clcd_print(" ", (0xC0 + 6));
+
+
+                        control_flag = 2;
+                        break;
+                    }
+                    default:
+                    {
+                        speed = get_speed();
+                        display_dashboard(event,speed);
+                    }
+                }
                 break;
+            case 2:
+            {
+                unsigned char * h = read_log_car_event(0);
+
+                clcd_print(h, (0xC0 + 0));
+                if(key == 0x1F)
+                {
+                    control_flag = 3;
+                }
+
+                break;
+            }
+            case 3:
+            {
+
+                if(key == 0x37)
+                {
+                    logs_index = display_log_car_event(logs_index+1)==-1?logs_index:logs_index+1;
+                }
+                else if(key == 0x2F)
+                {
+                    logs_index = display_log_car_event(logs_index-1)==-1?logs_index:logs_index-1;
+                }
+                else if(key == 0x1F)
+                {
+                    control_flag = 1;
+                    logs_index = 0;
+                }
+                else{
+                    display_log_car_event(logs_index);
+                }
+                break;
+            }
             default:
 
                 break;

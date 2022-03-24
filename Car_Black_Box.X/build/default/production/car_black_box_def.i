@@ -1859,6 +1859,60 @@ extern __bank0 __bit __timeout;
 # 29 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
 # 11 "./main.h" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 1 3
+
+
+
+
+
+# 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__size_t.h" 1 3
+
+
+
+typedef unsigned size_t;
+# 6 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 2 3
+
+# 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\__null.h" 1 3
+# 7 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 2 3
+
+
+
+
+
+
+
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+# 36 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 3
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+# 12 "./main.h" 2
+
+
 # 1 "./adc.h" 1
 
 
@@ -1869,27 +1923,28 @@ extern __bank0 __bit __timeout;
 
 void init_adc(void);
 unsigned short read_adc(void);
-# 12 "./main.h" 2
+# 14 "./main.h" 2
 
 # 1 "./clcd.h" 1
-# 32 "./clcd.h"
+# 33 "./clcd.h"
 void init_clcd(void);
 void clcd_putch(const char data, unsigned char addr);
 void clcd_print(const char *str, unsigned char addr);
-# 13 "./main.h" 2
+void clcd_write(unsigned char byte, unsigned char mode);
+# 15 "./main.h" 2
 
 # 1 "./digital_keypad.h" 1
 # 31 "./digital_keypad.h"
 unsigned char read_digital_keypad(unsigned char mode);
 void init_digital_keypad(void);
-# 14 "./main.h" 2
+# 16 "./main.h" 2
 
 # 1 "./ds1307.h" 1
 # 16 "./ds1307.h"
 void init_ds1307(void);
 unsigned char read_ds1307(unsigned char addr);
 void write_ds1307(unsigned char addr, unsigned char data);
-# 15 "./main.h" 2
+# 17 "./main.h" 2
 
 # 1 "./i2c.h" 1
 # 10 "./i2c.h"
@@ -1899,15 +1954,20 @@ void i2c_rep_start(void);
 void i2c_stop(void);
 unsigned char i2c_read(unsigned char ack);
 int i2c_write(unsigned char data);
-# 16 "./main.h" 2
+# 18 "./main.h" 2
 
 # 1 "./car_black_box_de.h" 1
-# 17 "./main.h" 2
+# 19 "./main.h" 2
 # 10 "./car_black_box_de.h" 2
 
 
+unsigned char get_speed(void);
 void display_time();
 void display_dashboard(char*,unsigned char);
+char display_log_car_event(char);
+unsigned char* read_log_car_event(char index);
+void log_car_event(char event[], unsigned char speed);
+void clcd_clear_screen(void);
 # 1 "car_black_box_def.c" 2
 
 
@@ -1918,6 +1978,15 @@ unsigned char clock_reg[3];
 
 
 char time[6];
+
+
+char log_index = -1;
+
+
+char no_events = 0;
+
+
+unsigned char log[11];
 
 void get_time()
 {
@@ -1956,11 +2025,17 @@ void display_time()
     clcd_putch(time[5],(0xC0 + 9));
 }
 
-void get_speed();
+unsigned char get_speed(void)
+{
+    return ((float)read_adc()/1023 * 99);
+}
+
 void display_dashboard(char* event,unsigned char speed)
 {
 
     clcd_print("  TIME     E  SP", (0x80 + 0));
+
+    clcd_print("  ",(0xC0 + 0));
 
 
     display_time();
@@ -1974,4 +2049,100 @@ void display_dashboard(char* event,unsigned char speed)
 
     clcd_putch((speed/10)+'0',(0xC0 + 14));
     clcd_putch((speed%10)+'0',(0xC0 + 15));
+}
+
+void log_event(void)
+{
+    log_index++;
+    if(log_index > 9)
+    {
+        log_index = 0;
+    }
+
+    unsigned char addr = log_index*10 + 0x05;
+
+    for(int i = 0; log[i] != '\0'; i++)
+    {
+        eeprom_write(addr+i,log[i]);
+    }
+    if(no_events < 10)
+        no_events++;
+}
+unsigned char* read_log_car_event(char index)
+{
+
+    if(index<no_events)
+    {
+
+        unsigned char edited[16];
+        unsigned char addr = index*10 + 0x05;
+        for(int i = 0; i < 10 ; i++)
+        {
+            log[i] = eeprom_read(addr+i);
+        }
+        edited[0] = index+'0';
+        edited[1] = ' ';
+        edited[2] = log[0];
+        edited[3] = log[1];
+        edited[4] = ':';
+        edited[5] = log[2];
+        edited[6] = log[3];
+        edited[7] = ':';
+        edited[8] = log[4];
+        edited[9] = log[5];
+        edited[10] = ' ';
+        edited[11] = log[6];
+        edited[12] = log[7];
+        edited[13] = ' ';
+        edited[14] = log[8];
+        edited[15] = log[9];
+        return edited;
+    }
+    return -1;
+
+}
+void log_car_event(char event[], unsigned char speed)
+{
+    get_time();
+
+
+    strncpy(log,time,6);
+
+    strncpy(&log[6],event,2);
+
+
+    log[8] = (speed/10)+'0';
+    log[9] = (speed%10)+'0';
+
+    log[10] = '\0';
+
+    log_event();
+}
+char display_log_car_event(char index)
+{
+    if(index == -1)
+    {
+
+        clcd_print("#  TIME     E  SP", (0x80 + 0));
+
+
+        clcd_print("No Logs Available", (0xC0 + 0));
+        return 1;
+    }
+    if(index<no_events)
+    {
+
+        clcd_print("#  TIME     E  SP", (0x80 + 0));
+
+
+        clcd_print(read_log_car_event(index), (0xC0 + 0));
+        return 1;
+    }
+    return -1;
+
+}
+void clcd_clear_screen(void)
+{
+     clcd_write(0x01, 0);
+    _delay((unsigned long)((100)*(20000000/4000000.0)));
 }

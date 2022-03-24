@@ -21,6 +21,12 @@
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 "8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\strcpy.c
+[v _strcpy strcpy `(*.4uc  1 e 1 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\strncpy.c
+[v _strncpy strncpy `(*.4uc  1 e 1 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8.c
+[v ___bmul __bmul `(uc  1 e 1 0 ]
 "4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8_16.c
 [v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
 "10 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\xxtofl.c
@@ -29,14 +35,30 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"11 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+"6 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\pic\__eeread.c
+[v _eeprom_read eeprom_read `(uc  1 e 1 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\pic\__eewrite.c
+[v _eeprom_write eeprom_write `(v  1 e 1 0 ]
+"20 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
 [v _get_time get_time `(v  1 e 1 0 ]
-"31
+"40
 [v _display_time display_time `(v  1 e 1 0 ]
-"49
+"57
+[v _get_speed get_speed `(uc  1 e 1 0 ]
+"62
 [v _display_dashboard display_dashboard `(v  1 e 1 0 ]
+"83
+[v _log_event log_event `(v  1 e 1 0 ]
+"100
+[v _read_log_car_event read_log_car_event `(*.39uc  1 e 1 0 ]
+"133
+[v _log_car_event log_car_event `(v  1 e 1 0 ]
+"150
+[v _display_log_car_event display_log_car_event `(uc  1 e 1 0 ]
+"173
+[v _clcd_clear_screen clcd_clear_screen `(v  1 e 1 0 ]
 "4 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\clcd.c
-[v _clcd_write clcd_write `(v  1 s 1 clcd_write ]
+[v _clcd_write clcd_write `(v  1 e 1 0 ]
 "16
 [v _init_display_controller init_display_controller `(v  1 s 1 init_display_controller ]
 "39
@@ -45,7 +67,13 @@
 [v _clcd_putch clcd_putch `(v  1 e 1 0 ]
 "57
 [v _clcd_print clcd_print `(v  1 e 1 0 ]
-"14 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\ds1307.c
+"4 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\digital_keypad.c
+[v _init_digital_keypad init_digital_keypad `(v  1 e 1 0 ]
+"11
+[v _read_digital_keypad read_digital_keypad `(uc  1 e 1 0 ]
+"5 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\ds1307.c
+[v _init_ds1307 init_ds1307 `(v  1 e 1 0 ]
+"14
 [v _read_ds1307 read_ds1307 `(uc  1 e 1 0 ]
 "29
 [v _write_ds1307 write_ds1307 `(v  1 e 1 0 ]
@@ -63,18 +91,60 @@
 [v _i2c_read i2c_read `(uc  1 e 1 0 ]
 "65
 [v _i2c_write i2c_write `(i  1 e 2 0 ]
-"12 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
+"17 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
 [v _init_config init_config `(v  1 s 1 init_config ]
-"27
+"32
 [v _main main `(v  1 e 1 0 ]
 "6 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
 [v _clock_reg clock_reg `[3]uc  1 e 3 0 ]
 "9
 [v _time time `[6]uc  1 e 6 0 ]
-"217 E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
+"12
+[v _log_index log_index `uc  1 e 1 0 ]
+"15
+[v _no_events no_events `uc  1 e 1 0 ]
+"18
+[v _log log `[11]uc  1 e 11 0 ]
+[s S307 . 1 `uc 1 C 1 0 :1:0 
+`uc 1 DC 1 0 :1:1 
+`uc 1 Z 1 0 :1:2 
+`uc 1 nPD 1 0 :1:3 
+`uc 1 nTO 1 0 :1:4 
+`uc 1 RP 1 0 :2:5 
+`uc 1 IRP 1 0 :1:7 
+]
+"100 E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\pic\include\proc\pic16f877a.h
+[s S315 . 1 `uc 1 . 1 0 :5:0 
+`uc 1 RP0 1 0 :1:5 
+`uc 1 RP1 1 0 :1:6 
+]
+[s S319 . 1 `uc 1 CARRY 1 0 :1:0 
+`uc 1 . 1 0 :1:1 
+`uc 1 ZERO 1 0 :1:2 
+]
+[u S323 . 1 `S307 1 . 1 0 `S315 1 . 1 0 `S319 1 . 1 0 ]
+[v _STATUSbits STATUSbits `VES323  1 e 1 @3 ]
+"217
 [v _PORTB PORTB `VEuc  1 e 1 @6 ]
 "341
 [v _PORTD PORTD `VEuc  1 e 1 @8 ]
+[s S344 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INTF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INTE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+"478
+[s S353 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :2:3 
+`uc 1 T0IE 1 0 :1:5 
+]
+[u S358 . 1 `S344 1 . 1 0 `S353 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES358  1 e 1 @11 ]
 "809
 [v _SSPBUF SSPBUF `VEuc  1 e 1 @19 ]
 "1153
@@ -89,6 +159,24 @@
 [v _SSPADD SSPADD `VEuc  1 e 1 @147 ]
 "2223
 [v _ADRESL ADRESL `VEuc  1 e 1 @158 ]
+"2289
+[v _EEDATA EEDATA `VEuc  1 e 1 @268 ]
+"2296
+[v _EEADR EEADR `VEuc  1 e 1 @269 ]
+"2317
+[v _EECON1 EECON1 `VEuc  1 e 1 @396 ]
+[s S287 . 1 `uc 1 RD 1 0 :1:0 
+`uc 1 WR 1 0 :1:1 
+`uc 1 WREN 1 0 :1:2 
+`uc 1 WRERR 1 0 :1:3 
+`uc 1 . 1 0 :3:4 
+`uc 1 EEPGD 1 0 :1:7 
+]
+"2332
+[u S294 . 1 `S287 1 . 1 0 ]
+[v _EECON1bits EECON1bits `VES294  1 e 1 @396 ]
+"2362
+[v _EECON2 EECON2 `VEuc  1 e 1 @397 ]
 "2379
 [v _ACKDT ACKDT `VEb  1 e 0 @1165 ]
 "2382
@@ -123,30 +211,99 @@
 [v _TRISE2 TRISE2 `VEb  1 e 0 @1098 ]
 "3075
 [v _nDONE nDONE `VEb  1 e 0 @250 ]
-"27 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
+"14 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
+[v _gear gear `[8]*.24uc  1 e 8 0 ]
+"32
 [v _main main `(v  1 e 1 0 ]
 {
-"28
-[v main@event event `[3]uc  1 a 3 72 ]
-"29
-[v main@speed speed `uc  1 a 1 76 ]
-"31
-[v main@control_flag control_flag `uc  1 a 1 75 ]
-"27
-[v main@F911 F911 `[3]uc  1 s 3 F911 ]
-"49
+"145
+[v main@h h `*.39uc  1 a 2 0 ]
+"54
+[v main@i i `i  1 a 2 9 ]
+"40
+[v main@event event `[3]uc  1 a 3 11 ]
+"37
+[v main@speed speed `uc  1 a 1 17 ]
+"44
+[v main@logs_index logs_index `uc  1 a 1 16 ]
+"39
+[v main@gr gr `uc  1 a 1 15 ]
+"38
+[v main@key key `uc  1 a 1 14 ]
+"43
+[v main@control_flag control_flag `uc  1 a 1 8 ]
+"182
 } 0
-"12 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\adc.c
-[v _read_adc read_adc `(us  1 e 2 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\strcpy.c
+[v _strcpy strcpy `(*.4uc  1 e 1 0 ]
 {
-"14
-[v read_adc@adc_reg_val adc_reg_val `us  1 a 2 2 ]
-"26
+[v strcpy@to to `*.4uc  1 a 1 wreg ]
+"15
+[v strcpy@cp cp `*.4uc  1 a 1 2 ]
+"8
+[v strcpy@to to `*.4uc  1 a 1 wreg ]
+[v strcpy@from from `*.24DCuc  1 p 1 0 ]
+"18
+[v strcpy@to to `*.4uc  1 a 1 3 ]
+"24
 } 0
-"12 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
+"11 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\digital_keypad.c
+[v _read_digital_keypad read_digital_keypad `(uc  1 e 1 0 ]
+{
+[v read_digital_keypad@mode mode `uc  1 a 1 wreg ]
+[v read_digital_keypad@mode mode `uc  1 a 1 wreg ]
+"13
+[v read_digital_keypad@once once `uc  1 s 1 once ]
+"15
+[v read_digital_keypad@mode mode `uc  1 a 1 1 ]
+"34
+} 0
+"133 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+[v _log_car_event log_car_event `(v  1 e 1 0 ]
+{
+[v log_car_event@event event `*.4uc  1 a 1 wreg ]
+[v log_car_event@event event `*.4uc  1 a 1 wreg ]
+[v log_car_event@speed speed `uc  1 p 1 9 ]
+"135
+[v log_car_event@event event `*.4uc  1 a 1 13 ]
+"149
+} 0
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\strncpy.c
+[v _strncpy strncpy `(*.4uc  1 e 1 0 ]
+{
+[v strncpy@to to `*.4uc  1 a 1 wreg ]
+"15
+[v strncpy@cp cp `*.4uc  1 a 1 5 ]
+"8
+[v strncpy@to to `*.4uc  1 a 1 wreg ]
+[v strncpy@from from `*.4DCuc  1 p 1 0 ]
+[v strncpy@size size `ui  1 p 2 1 ]
+"18
+[v strncpy@to to `*.4uc  1 a 1 4 ]
+"27
+} 0
+"83 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+[v _log_event log_event `(v  1 e 1 0 ]
+{
+"93
+[v log_event@i i `i  1 a 2 7 ]
+"91
+[v log_event@addr addr `uc  1 a 1 6 ]
+"99
+} 0
+"6 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\pic\__eewrite.c
+[v _eeprom_write eeprom_write `(v  1 e 1 0 ]
+{
+[v eeprom_write@addr addr `uc  1 a 1 wreg ]
+[v eeprom_write@addr addr `uc  1 a 1 wreg ]
+[v eeprom_write@value value `uc  1 p 1 0 ]
+[v eeprom_write@addr addr `uc  1 a 1 2 ]
+"9
+} 0
+"17 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\main.c
 [v _init_config init_config `(v  1 s 1 init_config ]
 {
-"25
+"30
 } 0
 "4 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\i2c.c
 [v _init_i2c init_i2c `(v  1 e 1 0 ]
@@ -166,6 +323,28 @@
 [v ___lldiv@dividend dividend `ul  1 p 4 4 ]
 "30
 } 0
+"5 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\ds1307.c
+[v _init_ds1307 init_ds1307 `(v  1 e 1 0 ]
+{
+"7
+[v init_ds1307@dummy dummy `uc  1 a 1 7 ]
+"12
+} 0
+"29
+[v _write_ds1307 write_ds1307 `(v  1 e 1 0 ]
+{
+[v write_ds1307@addr addr `uc  1 a 1 wreg ]
+[v write_ds1307@addr addr `uc  1 a 1 wreg ]
+[v write_ds1307@data data `uc  1 p 1 1 ]
+"31
+[v write_ds1307@addr addr `uc  1 a 1 2 ]
+"36
+} 0
+"4 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\digital_keypad.c
+[v _init_digital_keypad init_digital_keypad `(v  1 e 1 0 ]
+{
+"9
+} 0
 "39 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\clcd.c
 [v _init_clcd init_clcd `(v  1 e 1 0 ]
 {
@@ -181,25 +360,167 @@
 {
 "10
 } 0
-"49 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+"57 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+[v _get_speed get_speed `(uc  1 e 1 0 ]
+{
+"60
+} 0
+"12 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\adc.c
+[v _read_adc read_adc `(us  1 e 2 0 ]
+{
+"14
+[v read_adc@adc_reg_val adc_reg_val `us  1 a 2 2 ]
+"26
+} 0
+"10 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\xxtofl.c
+[v ___xxtofl __xxtofl `(d  1 e 4 0 ]
+{
+[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
+"13
+[v ___xxtofl@arg arg `ul  1 a 4 2 ]
+"12
+[v ___xxtofl@exp exp `uc  1 a 1 1 ]
+"10
+[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
+[v ___xxtofl@val val `l  1 p 4 4 ]
+"15
+[v ___xxtofl@sign sign `uc  1 a 1 0 ]
+"44
+} 0
+"43 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\fltol.c
+[v ___fltol __fltol `(l  1 e 4 0 ]
+{
+"45
+[v ___fltol@exp1 exp1 `uc  1 a 1 13 ]
+[v ___fltol@sign1 sign1 `uc  1 a 1 12 ]
+"43
+[v ___fltol@f1 f1 `d  1 p 4 58 ]
+"70
+} 0
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+{
+[s S652 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+"13
+[s S657 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
+[u S660 . 4 `l 1 i 4 0 `d 1 f 4 0 `S652 1 fAsBytes 4 0 `S657 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S660  1 a 4 52 ]
+"12
+[v ___flmul@grs grs `ul  1 a 4 46 ]
+[s S729 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+"14
+[u S732 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S729 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S732  1 a 2 56 ]
+"10
+[v ___flmul@bexp bexp `uc  1 a 1 51 ]
+"11
+[v ___flmul@aexp aexp `uc  1 a 1 50 ]
+"9
+[v ___flmul@sign sign `uc  1 a 1 45 ]
+"8
+[v ___flmul@b b `d  1 p 4 32 ]
+[v ___flmul@a a `d  1 p 4 36 ]
+"205
+} 0
+"4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+{
+[v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
+"6
+[v __Umul8_16@word_mpld word_mpld `ui  1 a 2 6 ]
+"5
+[v __Umul8_16@product product `ui  1 a 2 4 ]
+"4
+[v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
+[v __Umul8_16@multiplicand multiplicand `uc  1 p 1 0 ]
+[v __Umul8_16@multiplier multiplier `uc  1 a 1 8 ]
+"60
+} 0
+"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+{
+"21
+[v ___fldiv@grs grs `ul  1 a 4 26 ]
+"22
+[v ___fldiv@rem rem `ul  1 a 4 19 ]
+"20
+[v ___fldiv@new_exp new_exp `i  1 a 2 24 ]
+"19
+[v ___fldiv@aexp aexp `uc  1 a 1 31 ]
+"18
+[v ___fldiv@bexp bexp `uc  1 a 1 30 ]
+"16
+[v ___fldiv@sign sign `uc  1 a 1 23 ]
+"8
+[v ___fldiv@a a `d  1 p 4 6 ]
+[v ___fldiv@b b `d  1 p 4 10 ]
+"185
+} 0
+"150 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+[v _display_log_car_event display_log_car_event `(uc  1 e 1 0 ]
+{
+[v display_log_car_event@index index `uc  1 a 1 wreg ]
+[v display_log_car_event@index index `uc  1 a 1 wreg ]
+[v display_log_car_event@index index `uc  1 a 1 10 ]
+"172
+} 0
+"100
+[v _read_log_car_event read_log_car_event `(*.39uc  1 e 1 0 ]
+{
+[v read_log_car_event@index index `uc  1 a 1 wreg ]
+"108
+[v read_log_car_event@i i `i  1 a 2 18 ]
+"106
+[v read_log_car_event@edited edited `[16]uc  1 a 16 0 ]
+"107
+[v read_log_car_event@addr addr `uc  1 a 1 16 ]
+"100
+[v read_log_car_event@index index `uc  1 a 1 wreg ]
+"103
+[v read_log_car_event@index index `uc  1 a 1 17 ]
+"132
+} 0
+"6 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\pic\__eeread.c
+[v _eeprom_read eeprom_read `(uc  1 e 1 0 ]
+{
+[v eeprom_read@addr addr `uc  1 a 1 wreg ]
+[v eeprom_read@addr addr `uc  1 a 1 wreg ]
+"9
+[v eeprom_read@addr addr `uc  1 a 1 1 ]
+"19
+} 0
+"4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8.c
+[v ___bmul __bmul `(uc  1 e 1 0 ]
+{
+[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
+"6
+[v ___bmul@product product `uc  1 a 1 2 ]
+"4
+[v ___bmul@multiplier multiplier `uc  1 a 1 wreg ]
+[v ___bmul@multiplicand multiplicand `uc  1 p 1 0 ]
+"6
+[v ___bmul@multiplier multiplier `uc  1 a 1 3 ]
+"51
+} 0
+"62 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
 [v _display_dashboard display_dashboard `(v  1 e 1 0 ]
 {
 [v display_dashboard@event event `*.4uc  1 a 1 wreg ]
 [v display_dashboard@event event `*.4uc  1 a 1 wreg ]
 [v display_dashboard@speed speed `uc  1 p 1 12 ]
-"52
+"65
 [v display_dashboard@event event `*.4uc  1 a 1 13 ]
-"66
+"81
 } 0
-"31
+"40
 [v _display_time display_time `(v  1 e 1 0 ]
 {
-"46
+"55
 } 0
-"11
+"20
 [v _get_time get_time `(v  1 e 1 0 ]
 {
-"29
+"38
 } 0
 "14 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\ds1307.c
 [v _read_ds1307 read_ds1307 `(uc  1 e 1 0 ]
@@ -267,22 +588,9 @@
 "57
 [v _clcd_print clcd_print `(v  1 e 1 0 ]
 {
-[v clcd_print@str str `*.24DCuc  1 a 1 wreg ]
-[v clcd_print@str str `*.24DCuc  1 a 1 wreg ]
-[v clcd_print@addr addr `uc  1 p 1 4 ]
-"59
-[v clcd_print@str str `*.24DCuc  1 a 1 6 ]
+[v clcd_print@str str `*.26DCuc  1 p 2 6 ]
+[v clcd_print@addr addr `uc  1 p 1 8 ]
 "66
-} 0
-"4
-[v _clcd_write clcd_write `(v  1 s 1 clcd_write ]
-{
-[v clcd_write@byte byte `uc  1 a 1 wreg ]
-[v clcd_write@byte byte `uc  1 a 1 wreg ]
-[v clcd_write@mode mode `uc  1 p 1 0 ]
-"6
-[v clcd_write@byte byte `uc  1 a 1 3 ]
-"14
 } 0
 "5 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\awmod.c
 [v ___awmod __awmod `(i  1 e 2 0 ]
@@ -308,87 +616,18 @@
 [v ___awdiv@dividend dividend `i  1 p 2 2 ]
 "41
 } 0
-"10 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\xxtofl.c
-[v ___xxtofl __xxtofl `(d  1 e 4 0 ]
+"173 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\car_black_box_def.c
+[v _clcd_clear_screen clcd_clear_screen `(v  1 e 1 0 ]
 {
-[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
-"13
-[v ___xxtofl@arg arg `ul  1 a 4 2 ]
-"12
-[v ___xxtofl@exp exp `uc  1 a 1 1 ]
-"10
-[v ___xxtofl@sign sign `uc  1 a 1 wreg ]
-[v ___xxtofl@val val `l  1 p 4 4 ]
-"15
-[v ___xxtofl@sign sign `uc  1 a 1 0 ]
-"44
+"177
 } 0
-"43 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\fltol.c
-[v ___fltol __fltol `(l  1 e 4 0 ]
+"4 C:\Users\PETER\Documents\Emertxe Internship\Embedded Programs\Car_Black_Box.X\clcd.c
+[v _clcd_write clcd_write `(v  1 e 1 0 ]
 {
-"45
-[v ___fltol@exp1 exp1 `uc  1 a 1 13 ]
-[v ___fltol@sign1 sign1 `uc  1 a 1 12 ]
-"43
-[v ___fltol@f1 f1 `d  1 p 4 58 ]
-"70
-} 0
-"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcmul.c
-[v ___flmul __flmul `(d  1 e 4 0 ]
-{
-[s S471 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
-"13
-[s S476 . 4 `i 1 wordA 2 0 `i 1 wordB 2 2 ]
-[u S479 . 4 `l 1 i 4 0 `d 1 f 4 0 `S471 1 fAsBytes 4 0 `S476 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S479  1 a 4 52 ]
-"12
-[v ___flmul@grs grs `ul  1 a 4 46 ]
-[s S548 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
-"14
-[u S551 . 2 `i 1 i 2 0 `ui 1 n 2 0 `S548 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S551  1 a 2 56 ]
-"10
-[v ___flmul@bexp bexp `uc  1 a 1 51 ]
-"11
-[v ___flmul@aexp aexp `uc  1 a 1 50 ]
-"9
-[v ___flmul@sign sign `uc  1 a 1 45 ]
-"8
-[v ___flmul@b b `d  1 p 4 32 ]
-[v ___flmul@a a `d  1 p 4 36 ]
-"205
-} 0
-"4 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\Umul8_16.c
-[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
-{
-[v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
+[v clcd_write@byte byte `uc  1 a 1 wreg ]
+[v clcd_write@byte byte `uc  1 a 1 wreg ]
+[v clcd_write@mode mode `uc  1 p 1 0 ]
 "6
-[v __Umul8_16@word_mpld word_mpld `ui  1 a 2 6 ]
-"5
-[v __Umul8_16@product product `ui  1 a 2 4 ]
-"4
-[v __Umul8_16@multiplier multiplier `uc  1 a 1 wreg ]
-[v __Umul8_16@multiplicand multiplicand `uc  1 p 1 0 ]
-[v __Umul8_16@multiplier multiplier `uc  1 a 1 8 ]
-"60
-} 0
-"8 C:\Program Files\Microchip\xc8\v2.36\pic\sources\c90\common\sprcdiv.c
-[v ___fldiv __fldiv `(d  1 e 4 0 ]
-{
-"21
-[v ___fldiv@grs grs `ul  1 a 4 26 ]
-"22
-[v ___fldiv@rem rem `ul  1 a 4 19 ]
-"20
-[v ___fldiv@new_exp new_exp `i  1 a 2 24 ]
-"19
-[v ___fldiv@aexp aexp `uc  1 a 1 31 ]
-"18
-[v ___fldiv@bexp bexp `uc  1 a 1 30 ]
-"16
-[v ___fldiv@sign sign `uc  1 a 1 23 ]
-"8
-[v ___fldiv@a a `d  1 p 4 6 ]
-[v ___fldiv@b b `d  1 p 4 10 ]
-"185
+[v clcd_write@byte byte `uc  1 a 1 3 ]
+"14
 } 0

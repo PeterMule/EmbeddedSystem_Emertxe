@@ -1,7 +1,7 @@
 #include <xc.h>
 #include "clcd.h"
 
-static void clcd_write(unsigned char byte, unsigned char mode)
+void clcd_write(unsigned char byte, unsigned char mode)
 {                     // 0x33                   RS = 0
     CLCD_RS = mode; // RE2 
     CLCD_DATA_PORT = byte; //  PORTD = 0x33

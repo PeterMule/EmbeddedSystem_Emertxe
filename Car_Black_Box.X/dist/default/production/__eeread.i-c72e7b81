@@ -1,4 +1,4 @@
-# 1 "clcd.c"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\sources\\c90\\pic\\__eeread.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "clcd.c" 2
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\sources\\c90\\pic\\__eeread.c" 2
 # 1 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 1 3
 # 18 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -1853,77 +1853,23 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "E:/Programs/MPLAB_XIDE/packs/Microchip/PIC16Fxxx_DFP/1.3.42/xc8\\pic\\include\\xc.h" 2 3
-# 1 "clcd.c" 2
-
-# 1 "./clcd.h" 1
-# 33 "./clcd.h"
-void init_clcd(void);
-void clcd_putch(const char data, unsigned char addr);
-void clcd_print(const char *str, unsigned char addr);
-void clcd_write(unsigned char byte, unsigned char mode);
-# 2 "clcd.c" 2
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.36\\pic\\sources\\c90\\pic\\__eeread.c" 2
 
 
-void clcd_write(unsigned char byte, unsigned char mode)
+
+
+unsigned char
+eeprom_read(unsigned char addr)
 {
-    RE2 = mode;
-    PORTD = byte;
-
-    RE1 = 1;
-    _delay((unsigned long)((100)*(20000000/4000000.0)));
-    RE1 = 0;
-
-    _delay((unsigned long)((4100)*(20000000/4000000.0)));
-}
-
-static void init_display_controller(void)
-{
-
-    _delay((unsigned long)((30)*(20000000/4000.0)));
+ do
+  __asm("clrwdt");
 
 
-    clcd_write(0x33, 0);
-     _delay((unsigned long)((4100)*(20000000/4000000.0)));
-     clcd_write(0x33, 0);
-    _delay((unsigned long)((100)*(20000000/4000000.0)));
-     clcd_write(0x33, 0);
-     _delay((unsigned long)((1)*(20000000/4000000.0)));
-
-    clcd_write(0x38, 0);
-     _delay((unsigned long)((100)*(20000000/4000000.0)));
-
-     clcd_write(0x01, 0);
-    _delay((unsigned long)((100)*(20000000/4000000.0)));
-
-    clcd_write(0x0C, 0);
-    _delay((unsigned long)((100)*(20000000/4000000.0)));
-}
-
-void init_clcd(void)
-{
-
-    TRISD = 0x00;
+ while(EECON1bits.WR);
 
 
-    TRISE2 = 0;
-    TRISE1 = 0;
 
-    init_display_controller();
-}
 
-void clcd_putch(const char data, unsigned char addr)
-{
-    clcd_write(addr, 0);
-    clcd_write(data, 1);
-}
 
-void clcd_print(const char *str, unsigned char addr)
-{
-    clcd_write(addr, 0);
-
-    while (*str != '\0')
-    {
-        clcd_write(*str, 1);
-        str++;
-    }
+ return ( EEADR = addr, EECON1 &= 0x3F, EECON1bits.RD = 1, EEDATA);
 }
