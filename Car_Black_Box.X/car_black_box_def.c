@@ -175,3 +175,104 @@ void clcd_clear_screen(void)
      clcd_write(CLEAR_DISP_SCREEN, INST_MODE);
     __delay_us(100);
 }
+
+void login(unsigned char key,unsigned char reset_flag)
+{
+    //Password entered
+    static char npassword[4];
+    //Number of attempts remaining
+    static unsigned char attempt_rem, i;
+    unsigned char same_password;
+    
+    if(reset_flag == RESET_PASSWORD)
+    {
+        attempt_rem = '3';
+        
+        i = 0;
+        
+        npassword[0] = '\0';
+        npassword[1] = '\0';
+        npassword[2] = '\0';
+        npassword[3] = '\0';
+        key = ALL_RELEASED;
+    }
+    else{
+        if(i < 4)
+        {
+            if(key == SW4)
+            {
+                npassword[i] = PASS_SW4;
+                clcd_putch('*', LINE2(6+i));
+                i++;
+            }
+            else if(key == SW5)
+            {
+                npassword[i] = PASS_SW5;
+                clcd_putch('*', LINE2(6+i));
+                i++;
+            }
+        }
+        if( i == 4 )
+        {
+            /*
+             * for(int j = 0; (j < 4) ;j++)
+             *  {
+             *       spassword[i] = eeprom_read(j);
+             *  }
+             * if(strncmp(npassword, spassword, 4) == 0)
+             * {
+             * 
+             * }`
+             * 
+             */
+            same_password = 1;
+            for(char j = 0; (j < 4) && (same_password == 1);j++)
+            {
+                same_password = eeprom_read(j) == npassword[j]?1:0;
+            }
+            if(same_password == 1)//Menu Screen
+            {
+
+            }
+            else//Wrong password
+            {
+                attempt_rem--;
+                if(attempt_rem == '0')//Block user for 15 minutes
+                {
+                    clcd_clear_screen();
+                    clcd_print(" You are blocked ",LINE1(0));
+                    clcd_print(" Wait for 60 seconds... ",LINE2(0));
+                    sec = 60;
+                    /* Switching on the Timer2 Interrupt */
+                    TMR2IE = 1;
+                    TMR2ON = 1;
+                    clcd_write(DISP_ON_AND_CURSOR_OFF, INST_MODE);
+                    while(sec!=0)
+                    {
+                        clcd_putch((sec/10)+'0',LINE2(10));
+                        clcd_putch((sec%10)+'0',LINE2(11));
+                    }
+                    clcd_write(DISP_ON_AND_CURSOR_ON, INST_MODE);
+                    /* Switching off the Timer2 Interrupt */
+                    TMR2IE = 0;
+                    TMR2ON = 0;
+                    attempt_rem = '3';
+                }
+                else
+                {
+                    clcd_clear_screen();
+                    clcd_print(" WRONG PASSWORD ",LINE1(0));
+                    clcd_putch(attempt_rem,LINE2(0));
+                    clcd_print(" attempts remaining", LINE2(1));
+                    __delay_ms(3000);           
+                }
+                clcd_clear_screen();
+                clcd_print(" ENTER PASSWORD", LINE1(0));
+                clcd_print(" ", LINE2(CURSOR_POS));
+                i=0;
+            }
+        }
+    }
+    
+
+}

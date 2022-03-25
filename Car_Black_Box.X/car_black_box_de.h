@@ -15,6 +15,8 @@ void display_dashboard(char*,unsigned char);
 char display_log_car_event(char);
 unsigned char* read_log_car_event(char index);
 void log_car_event(char event[], unsigned char speed);
+
+void login(unsigned char key,unsigned char reset_flag);
 void clcd_clear_screen(void);
 #endif	/* CAR_BLACK_BOX_DE_H */
 

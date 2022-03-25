@@ -27,15 +27,22 @@ static void init_config(void)
     //
     init_ds1307();
     
+    //
+    init_timer2();
+    
+    PEIE = 1;
+    
+    GIE = 1;
+    
 }
 
 void main(void) {
     
     init_config();
     
-    eeprom_write(1,'A');
-    unsigned char speed = get_speed();
-    unsigned char key;
+    
+    unsigned char speed = 0;
+    unsigned char key,reset_flag;
     unsigned char gr = 0;
     char event[3];
     strcpy(event,gear[gr]);
@@ -43,6 +50,11 @@ void main(void) {
     unsigned char control_flag = DASHBOARD_FLAG;
     char logs_index = 0;
     
+    //SET initial password as "0100"
+    eeprom_write(0x00,PASS_SW4);
+    eeprom_write(0x01,PASS_SW5);
+    eeprom_write(0x02,PASS_SW4);
+    eeprom_write(0x03,PASS_SW4);
     
     
     
@@ -128,9 +140,11 @@ void main(void) {
                         clcd_clear_screen();
                         clcd_print(" ENTER PASSWORD", LINE1(0));
                         clcd_print(" ", LINE2(CURSOR_POS));
-                        //clcd_write(CURSOR_POS, INST_MODE);
-                        //clcd_write(DISP_ON_AND_CURSOR_ON,CURSOR_POS);
+                        clcd_write(DISP_ON_AND_CURSOR_ON, INST_MODE);
                         control_flag = LOGIN_FLAG;
+                        reset_flag = RESET_PASSWORD;
+                        login(key,reset_flag);
+                        reset_flag = RESET_NOTHING;
                         break;
                     }
                     default:
@@ -142,6 +156,9 @@ void main(void) {
                 break;
             case LOGIN_FLAG:
             {
+                login(key,reset_flag);
+                
+                /*
                 unsigned char * h = read_log_car_event(0);
                 
                 clcd_print(h, LINE2(0));
@@ -149,12 +166,11 @@ void main(void) {
                 {
                     control_flag = VIEW_LOGS_FLAG;
                 } 
-                        
+                */
                 break;
             }
             case VIEW_LOGS_FLAG:
             {
-                
                 if(key == SW4)
                 {
                     logs_index = display_log_car_event(logs_index+1)==-1?logs_index:logs_index+1;
@@ -177,6 +193,7 @@ void main(void) {
                 
                 break;
         }
+        
     }
     return;
 }
