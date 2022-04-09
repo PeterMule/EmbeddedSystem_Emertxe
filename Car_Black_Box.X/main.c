@@ -11,7 +11,7 @@
 #pragma config WDTE = OFF        // Watchdog Timer Enable bit (WDT disabled)
 
 
-unsigned char* gear[] = {"ON","C ", "GN","GR","G1","G2","G3","G4"};
+char* gear[] = {"ON","C ", "GN","GR","G1","G2","G3","G4"};
 
 
 static void init_config(void)
@@ -41,14 +41,14 @@ void main(void) {
     init_config();
     
     
-    unsigned char speed = 0;
+    unsigned char speed = get_speed();
     unsigned char key,reset_flag;
     unsigned char gr = 0;
     char event[3];
     strcpy(event,gear[gr]);
     log_car_event(event,speed);
     unsigned char control_flag = DASHBOARD_FLAG;
-    char logs_index = 0;
+    char logs_index = 0,menu_pos;
     
     //SET initial password as "0100"
     eeprom_write(0x00,PASS_SW4);
@@ -63,37 +63,8 @@ void main(void) {
         key = read_digital_keypad(STATE);
         
         //Remove bouncing Effect
-        for(int i = 0; i<30;i++);
-        /*
-        //SET Events 
-        if(key == SW1)
-        {
-            gr = 1;
-            strcpy(event,gear[gr]);
-            speed = get_speed();
-            log_car_event(event,speed);
-        }
-        else if(key == SW2 && gr < 8)
-        {
-            strcpy(event,gear[gr<2?gr=2:gr++]);
-            speed = get_speed();
-            log_car_event(event,speed);
-        }
-        else if(key == SW3 && gr > 2)
-        {
-            strcpy(event,gear[--gr]);
-            speed = get_speed();
-            log_car_event(event,speed);
-        }
-        else if(control_flag == DASHBOARD_FLAG && (key == SW4 || key == SW5))
-        {
-            clcd_clear_screen();
-            clcd_print(" ENTER PASSWORD", LINE1(0));
-            clcd_print(" ", LINE2(CURSOR_POS));
-            clcd_write(CURSOR_POS, INST_MODE);
-            clcd_write(DISP_ON_AND_CURSOR_ON,CURSOR_POS);
-            control_flag = LOGIN_FLAG;
-        }*/
+        for(int i = 0; i<3000;i++);
+
         switch(control_flag)
         {
             case DASHBOARD_FLAG: //Dashboard
@@ -112,9 +83,9 @@ void main(void) {
                     }
                     case SW2:
                     {
-                        if (gr < 8)
+                        if (gr < 7)
                         {
-                            strcpy(event,gear[gr<2?gr=2:gr++]);
+                            strcpy(event,gear[gr<2?gr=2:++gr]);
                             speed = get_speed();
                             log_car_event(event,speed);
                             
@@ -141,10 +112,12 @@ void main(void) {
                         clcd_print(" ENTER PASSWORD", LINE1(0));
                         clcd_print(" ", LINE2(CURSOR_POS));
                         clcd_write(DISP_ON_AND_CURSOR_ON, INST_MODE);
+                        __delay_us(100);
                         control_flag = LOGIN_FLAG;
                         reset_flag = RESET_PASSWORD;
                         login(key,reset_flag);
                         reset_flag = RESET_NOTHING;
+                        TMR2ON = 1;
                         break;
                     }
                     default:
@@ -156,7 +129,28 @@ void main(void) {
                 break;
             case LOGIN_FLAG:
             {
-                login(key,reset_flag);
+                switch(login(key,reset_flag))
+                {
+                    case RETURN_BACK:
+                    {
+                        control_flag = DASHBOARD_FLAG;
+                        TMR2ON = 0;
+                        clcd_write(DISP_ON_AND_CURSOR_OFF, INST_MODE);
+                        __delay_us(100);
+                        break;
+                    }
+                    case LOGIN_SUCCESS:
+                    {
+                        control_flag = MENU_FLAG;
+                        reset_flag = RESET_LOGIN_MENU;
+                        login_menu(ALL_RELEASED,reset_flag);
+                        reset_flag = RESET_NOTHING;
+                        clcd_clear_screen();
+                        clcd_write(DISP_ON_AND_CURSOR_OFF, INST_MODE);
+                        __delay_us(100);
+                        break;
+                    }
+                }
                 
                 /*
                 unsigned char * h = read_log_car_event(0);
@@ -169,24 +163,105 @@ void main(void) {
                 */
                 break;
             }
+            case MENU_FLAG:
+            {
+                menu_pos = login_menu(key,reset_flag);
+                if(key == SW6){
+                    switch(menu_pos)
+                    {
+                        case 0:
+                        {
+                            control_flag = VIEW_LOGS_FLAG;
+                            logs_index = 0;
+                            break;
+                        }
+                        case 1:
+                        {
+                            control_flag = CLEAR_LOGS_FLAG;
+                            reset_flag = RESET_CLEAR_LOGS;
+                            break;
+                        }
+                        case 2:
+                        {
+                            control_flag = CHANGE_PASS_FLAG;
+                            speed = get_speed();
+                            log_car_event("CP", speed);
+                            reset_flag = RESET_CHANGE_PASSWORD;
+                            change_password(ALL_RELEASED, reset_flag);
+                            reset_flag = RESET_NOTHING;
+                            
+                            break;
+                        }
+                    }
+                }
+                if(key == SW1 || key == SW2 || key == SW3)
+                {
+                    clcd_clear_screen();
+                    control_flag = DASHBOARD_FLAG;
+                }
+                break;
+            }
             case VIEW_LOGS_FLAG:
             {
                 if(key == SW4)
                 {
-                    logs_index = display_log_car_event(logs_index+1)==-1?logs_index:logs_index+1;
+                    logs_index = display_log_car_event(logs_index+1)==0?logs_index:logs_index+1;
                 }
                 else if(key == SW5)
                 {
-                    logs_index = display_log_car_event(logs_index-1)==-1?logs_index:logs_index-1;
+                    logs_index = display_log_car_event(logs_index-1)==0?logs_index:logs_index-1;
                 }
                 else if(key == SW6)
                 {
-                    control_flag = DASHBOARD_FLAG;
+                    control_flag = MENU_FLAG;
                     logs_index = 0;
+                    clcd_clear_screen();
                 }
                 else{
                     display_log_car_event(logs_index);
                 }
+                break;
+            }
+            case CLEAR_LOGS_FLAG:
+            {
+                clcd_clear_screen();
+                if(clear_logs(reset_flag) == TASK_SUCCESS)
+                {
+                    clcd_clear_screen();
+                    control_flag = MENU_FLAG;   
+                    reset_flag = RESET_LOGIN_MENU;
+                    continue;
+                }
+                break;
+            }
+            case CHANGE_PASS_FLAG:
+            {
+                switch(change_password(key, reset_flag))
+                {
+                    case TASK_SUCCESS:
+                    {
+                        clcd_clear_screen();
+                        control_flag = MENU_FLAG;
+                        reset_flag = RESET_LOGIN_MENU;
+                        login_menu(ALL_RELEASED,reset_flag);
+                        reset_flag = RESET_NOTHING;
+                        break;
+                    }
+                    case TASK_FAIL:
+                    {
+                        clcd_clear_screen();
+                        control_flag = MENU_FLAG;
+                        reset_flag = RESET_LOGIN_MENU;
+                        login_menu(ALL_RELEASED,reset_flag);
+                        reset_flag = RESET_NOTHING;
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
+                
                 break;
             }
             default:
